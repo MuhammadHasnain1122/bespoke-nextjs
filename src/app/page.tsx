@@ -1,3 +1,5 @@
+'use client'
+
 import homeImg from '../../public/resources/homeimg.png'
 import Image from 'next/image';
 import HomeImage from '../../public/resources/homeimg2.svg';
@@ -19,9 +21,26 @@ import hospital from '../../public/resources/hospital.svg';
 import beaches from '../../public/resources/beach.svg';
 import wallet from '../../public/resources/wallet.svg';
 import camera from '../../public/resources/camera.svg';
-import { features } from 'process';
+
+import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUsers } from "../store/userSlice";
+import { AppDispatch } from "@/store/store";
 
 export default function Home() {
+
+  const userRef = useRef(false);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+      if (userRef.current === false) {
+        dispatch(fetchUsers());
+      }
+  
+      return () => {
+        userRef.current = true;
+      };
+    }, []);
 
   return (
     <main className=''>
@@ -29,7 +48,7 @@ export default function Home() {
   {/* MainPart */}
     <div>
 
-      <div className='absolute bg-slate-800 w-full h-[880px] bg-opacity-75 flex flex-row justify-around items-center'>
+      <div className='absolute bg-opacity-75 w-full flex flex-row justify-center items-center'>
           <div className='w-[600px] space-y-5'>
               <div className='text-[#EAEAEA] text-[18px]'>Free Changes for Life.</div>
               <div className='text-[54px] text-[#FFFFFF]'>Hand-Made Website For Your Bussiness</div>
@@ -42,7 +61,9 @@ export default function Home() {
           </div>
       </div>
 
+      <div className='bg-slate-800 bg-opacity-75'>
       <Image className='w-full h-[880px] -z-10 relative' src={homeImg} alt='backgroundImage' />
+      </div>
     </div>
 
     {/* Features Tab */}
@@ -110,7 +131,7 @@ export default function Home() {
 
     {/* Booking Deals */}
     <div>
-      <div className='z-10 absolute bg-slate-800 w-full h-[1035px] bg-opacity-75 flex flex-col justify-center items-center space-y-8'>
+      <div className='z-10 absolute w-full h-full flex flex-col justify-center items-center space-y-8'>
 
       <div className='text-[40px] text-[#FFFFFF] font-bold'>Deals On Booking</div>
       <div><Image src={Dash} alt='dash' /></div>
@@ -125,7 +146,9 @@ export default function Home() {
       </div>
 
       </div>
+      <div className='bg-slate-800 bg-opacity-75'>
       <Image className='w-full -z-10 relative' src={BookingImage} alt='Booking' />
+      </div>
     </div>
 
     {/* Our Services */}
@@ -193,11 +216,13 @@ export default function Home() {
 
     {/* Book Now Tab */}
     <div>
-    <div  className='z-10 absolute h-[260px] bg-slate-800 w-full bg-opacity-75 flex flex-row justify-around items-center'>
+    <div  className='z-10 absolute pt-10 w-full flex flex-row justify-around items-center'>
       <div className='text-[38px] text-[#FFFFFF]'>Incredible Destinations at Incredible Deals</div>
       <div><button className='bg-[#FECE01] text-black text-[16px] w-[180px] h-[54px]'>Book Call</button></div>
     </div>
-    <Image className='-z-10 relative' src={BookImage} alt='Img' />
+       <div className='bg-slate-800 bg-opacity-75'>
+       <Image className='-z-10 relative' src={BookImage} alt='Img' />
+       </div>
     </div>
 
     </main>

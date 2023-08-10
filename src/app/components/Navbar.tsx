@@ -4,14 +4,12 @@ import logo from '../../../public/resources/Logo.svg';
 import home from '../../../public/resources/home.svg';
 import envolope from '../../../public/resources/envolope.svg';
 import phone from '../../../public/resources/phone.svg';
-// import { Open_Sans } from 'next/font/google';
-// const opensans = Open_Sans({
-//   weight: ['300', '400', '500', '600', '800']
-//   })
 
 export default function Navbar() {
+
   return (
     <nav className="bg-slate-800">
+        
         <div className="bg-[#ffffff] h-[120px] w-full flex flex-row justify-around items-center">
             <div><Image src={logo} alt="Logo" /></div>
 

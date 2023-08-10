@@ -1,6 +1,11 @@
+'use client'
+
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { deletePost } from "../../store/userSlice"; 
+import { useEffect } from "react";
 import Image from "next/image"; 
 import type { Metadata } from "next";
-import getAllPost from "../../../library/getAllPosts";
 import postImage from '../../../public/resources/postimg.svg';
 import postImage2 from '../../../public/resources/postimg2.svg';
 import Dollar from '../../../public/resources/dollar2.svg';
@@ -8,33 +13,37 @@ import homeIcon from '../../../public/resources/homeicon.svg';
 import Headphone from '../../../public/resources/headphone2.svg';
 import Calender from '../../../public/resources/calendar2.svg';
 import PostIcon from '../../../public/resources/posticon.svg';
-import Link from "next/link";
+import Link from "next/link";   
+
+
 export const metadata: Metadata = {
     title: 'Posts',
     description: 'This is the Posts'
 }
 
-export default async function posts() {
+export default function posts() {
 
-    // functions for Api Posts
-    const posts: Promise<Post[]> = getAllPost();
-    const allPosts = (await posts).length <= 8 ? posts : (await posts).slice(0, 8);
-    const renderedPosts = await allPosts;
+    const { entities } = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch<AppDispatch>();
 
-    // functions for next and reverse posts 
+      const handleDeletePost = (postId: any) => {
+        dispatch(deletePost(postId));
+      };
 
   return (
     <main>
 
     {/* Header */}
     <div>
-        <div className="bg-slate-800 z-10 absolute h-[375px] bg-opacity-75 w-full">
+        <div className="z-10 absolute w-full">
             <div className="flex flex-col items-center space-y-5 pt-10">
                 <div className="text-[50px] text-[#FFFFFF]">POSTS</div>
                 <div className="text-[20px] text-[#FFFFFF]">Home » Posts</div>
             </div>
         </div>
+        <div className="bg-slate-800 bg-opacity-75">
         <Image className="-z-10 relative" src={postImage} alt="img" />
+        </div>
     </div>
 
     {/* Posts */}
@@ -59,7 +68,7 @@ export default async function posts() {
                     </tr>
                     </thead>
                     
-                        {renderedPosts.map(post => {
+                        {entities.map((post: any) => {
                             return (
                                 <>
                                     <tbody>
@@ -69,8 +78,8 @@ export default async function posts() {
                                              <td className="border px-4 py-2">{(post.body).length <= 25 ? post.body: (post.body).slice(0, 25)}....</td>
                                             <td className="border px-4 py-2">
                                                 <div className="space-x-2">
-                                                    <a className="text-blue-500">Update</a>
-                                                    <a className="text-red-500">Delete</a>
+                                                    <Link href={`/posts/update/${post.id}`}><button>Update</button></Link>
+                                                    <button onClick={() => handleDeletePost(post.id)}>Delete</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -79,18 +88,12 @@ export default async function posts() {
                             )
                         })}
                 </table>
-                <div className="mt-4 space-x-5">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md ml-2"
-                    >Reverse</button>
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                    >Next</button>
-                </div>
                 </div>
         </div>
        
     {/* Post Features */}
         <div>
-            <div className="bg-slate-800 z-10 absolute h-[255px] bg-opacity-75 w-full flex items-center justify-center">
+            <div className="z-10 absolute h-[255px] w-full flex items-center justify-center">
                 <div className='flex flex-row justify-around items-center'>
                     <div className='flex flex-row items-center space-x-2'>
                     <div><Image src={Dollar} alt='Dollar' /></div>
@@ -122,7 +125,9 @@ export default async function posts() {
                     </div>
                 </div>
             </div>
-            <Image className="-z-10 relative" src={postImage2} alt="img" />
+            <div className="bg-slate-800 bg-opacity-75">
+                <Image className="-z-10 relative" src={postImage2} alt="img" />
+            </div>
         </div>
 
 

@@ -2,10 +2,7 @@ import './globals.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import type { Metadata } from 'next';
-// import { Open_Sans } from 'next/font/google';
-// const inter = Open_Sans({
-//   weight: ['300', '400', '500', '600', '800']
-//   })
+import { Providers } from './provider';
 
 export const metadata: Metadata = {
   title: 'Bespoke',
@@ -21,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        {children}
+        <Providers>{children}</Providers>
         <Footer />
       </body>
     </html>

@@ -1,6 +1,5 @@
 import getPost from "../../../../library/getPost";
 import Image from "next/image"; 
-import type { Metadata } from "next";
 import postImage from '../../../../public/resources/postimg.svg';
 import postImage2 from '../../../../public/resources/postimg2.svg';
 import Dollar from '../../../../public/resources/dollar2.svg';
